@@ -1,0 +1,114 @@
+body {
+  margin: 0;
+  font-family: 'Sarabun', sans-serif;
+  background-color: #0d0d0d;
+  color: #fff;
+  transition: opacity 0.6s ease;
+}
+
+.fade-in { opacity: 1; }
+.fade-out { opacity: 0; }
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  background: linear-gradient(90deg, #111, #222);
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar a {
+  color: #ffa500;
+  text-decoration: none;
+  margin: 0 15px;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navbar a::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background-color: #ffa500;
+  transition: width 0.3s ease;
+}
+
+.navbar a:hover::after {
+  width: 100%;
+}
+
+.navbar a.active {
+  color: #fff;
+}
+
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+  background: url('https://cdn.pixabay.com/photo/2017/09/06/22/14/halloween-2722906_1280.jpg') center/cover no-repeat;
+}
+
+.hero h1 {
+  font-size: 2.5em;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+}
+
+.btn {
+  background: #ff6600;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.btn:hover {
+  transform: scale(1.1);
+  background: #ffaa00;
+}
+
+/* --- ตัวโหลดหน้าเว็บ --- */
+.loader-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle, #1b0b02, #000);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  color: #ffa500;
+  font-size: 1.4em;
+  transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.loader {
+  border: 6px solid rgba(255,255,255,0.1);
+  border-top: 6px solid #ffa500;
+  border-radius: 50%;
+  width: 70px; height: 70px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
