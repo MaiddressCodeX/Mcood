@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tower Defense Game</title>
+    <link rel="stylesheet" href="tower-defense.css">
+</head>
+<body>
+    <!-- Main Menu Screen -->
+    <div id="mainMenu" class="screen active">
+        <div class="menu-container">
+            <h1 class="game-title">TOWER DEFENSE</h1>
+            <div class="menu-buttons">
+                <button class="menu-btn" onclick="showDifficultyScreen()">เริ่มเกม</button>
+                <button class="menu-btn" onclick="showSettings()">ตั้งค่า</button>
+                <button class="menu-btn" onclick="exitGame()">ออกเกม</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Difficulty Selection Screen -->
+    <div id="difficultyScreen" class="screen">
+        <div class="menu-container">
+            <h2 class="screen-title">เลือกความยาก</h2>
+            <div class="difficulty-buttons">
+                <button class="difficulty-btn easy" onclick="selectDifficulty('easy')">
+                    <span class="diff-name">EASY</span>
+                    <span class="diff-info">30 Waves | เงินเริ่มต้น 1000G</span>
+                </button>
+                <button class="difficulty-btn normal" onclick="selectDifficulty('normal')">
+                    <span class="diff-name">NORMAL</span>
+                    <span class="diff-info">60 Waves | เงินเริ่มต้น 1200G</span>
+                </button>
+                <button class="difficulty-btn hard" onclick="selectDifficulty('hard')">
+                    <span class="diff-name">HARD</span>
+                    <span class="diff-info">40 Waves | เงินเริ่มต้น 4000G</span>
+                </button>
+                <button class="difficulty-btn nightmare" onclick="selectDifficulty('nightmare')">
+                    <span class="diff-name">NIGHTMARE</span>
+                    <span class="diff-info">100 Waves | เงินเริ่มต้น 5000G</span>
+                </button>
+                <button class="difficulty-btn infinite" onclick="selectDifficulty('infinite')">
+                    <span class="diff-name">INFINITE</span>
+                    <span class="diff-info">∞ Waves | เงินเริ่มต้น 5000G</span>
+                </button>
+            </div>
+            <button class="back-btn" onclick="showMainMenu()">กลับ</button>
+        </div>
+    </div>
+
+    <!-- Map Selection Screen -->
+    <div id="mapScreen" class="screen">
+        <div class="menu-container">
+            <h2 class="screen-title">เลือกแมพ</h2>
+            <div id="loadingText" class="loading-text">กำลังโหลด...</div>
+            <div class="map-buttons">
+                <button class="map-btn" onclick="startGame('map1')">
+                    <span class="map-name">แมพ 1</span>
+                    <span class="map-desc">ทางตรงพื้นฐาน</span>
+                </button>
+            </div>
+            <button class="back-btn" onclick="showDifficultyScreen()">กลับ</button>
+        </div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="settingsScreen" class="screen">
+        <div class="menu-container">
+            <h2 class="screen-title">ตั้งค่า</h2>
+            <div class="settings-content">
+                <div class="setting-item">
+                    <label>ธีม</label>
+                    <select id="themeSelect" onchange="changeTheme()">
+                        <option value="dark">มืด</option>
+                        <option value="light">สว่าง</option>
+                    </select>
+                </div>
+                <div class="setting-item">
+                    <label>Auto-skip Wave</label>
+                    <input type="checkbox" id="autoSkipWave" checked>
+                </div>
+                <div class="setting-item">
+                    <label>สีธีม</label>
+                    <input type="color" id="themeColor" value="#00ff88" onchange="changeThemeColor()">
+                </div>
+                <div class="setting-item">
+                    <label>เสียง</label>
+                    <input type="range" id="volumeSlider" min="0" max="100" value="50">
+                </div>
+            </div>
+            <div class="credits">By Maiddress</div>
+            <button class="back-btn" onclick="showMainMenu()">กลับ</button>
+        </div>
+    </div>
+
+    <!-- Game Screen -->
+    <div id="gameScreen" class="screen">
+        <!-- Top UI Bar -->
+        <div class="top-bar">
+            <div class="game-info">
+                <span id="waveInfo">Wave: 0/30</span>
+                <span id="goldInfo">💰 1000G</span>
+                <span id="livesInfo">❤️ 100</span>
+                <span id="timerInfo">⏱️ 00:00</span>
+            </div>
+            <div class="top-controls">
+                <button class="speed-btn" id="speedBtn" onclick="changeSpeed()">1x</button>
+                <button class="settings-btn" onclick="showPauseMenu()">⚙️</button>
+            </div>
+        </div>
+
+        <!-- Game Canvas -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Tower Selection Panel (Right Side) -->
+        <div class="tower-panel" id="towerPanel">
+            <h3>Towers</h3>
+            <div class="tower-list" id="towerList"></div>
+        </div>
+
+        <!-- Tower Info Panel (Left Side) -->
+        <div class="tower-info-panel" id="towerInfoPanel">
+            <h3 id="towerInfoName">Tower Info</h3>
+            <div class="tower-stats" id="towerStats"></div>
+            <div class="upgrade-buttons">
+                <button class="upgrade-btn path1" id="upgradePath1Btn" onclick="upgradeTower(1)">
+                    <span class="upgrade-name">Path 1</span>
+                    <span class="upgrade-cost" id="path1Cost">0G</span>
+                </button>
+                <button class="upgrade-btn path2" id="upgradePath2Btn" onclick="upgradeTower(2)">
+                    <span class="upgrade-name">Path 2</span>
+                    <span class="upgrade-cost" id="path2Cost">0G</span>
+                </button>
+            </div>
+            <div class="tower-actions">
+                <button class="sell-btn" onclick="sellTower()">ขาย</button>
+                <button class="close-btn" onclick="closeTowerInfo()">ปิด</button>
+            </div>
+        </div>
+
+        <!-- Pause Menu -->
+        <div class="pause-menu" id="pauseMenu">
+            <div class="pause-content">
+                <h2>หยุดชั่วคราว</h2>
+                <button class="menu-btn" onclick="resumeGame()">เล่นต่อ</button>
+                <button class="menu-btn" onclick="quitToMenu()">ออกเกม</button>
+            </div>
+        </div>
+
+        <!-- Placement UI -->
+        <div class="placement-ui" id="placementUI">
+            <div class="placement-preview" id="placementPreview"></div>
+            <div class="placement-buttons">
+                <button class="place-btn" onclick="confirmPlacement()">วาง</button>
+                <button class="cancel-btn" onclick="cancelPlacement()">ยกเลิก</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="tower-defense.js"></script>
+</body>
+</html>
